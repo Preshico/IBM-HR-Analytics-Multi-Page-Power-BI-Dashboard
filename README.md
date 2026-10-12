@@ -169,4 +169,4 @@ All data is embedded — no additional setup required
 Use the slicers on the left sidebar to filter by Department, Job Role, Gender, Education, Age Group and more
 Click any visual to cross-filter the entire page
 
-Built with Power BI Desktop | IBM HR Analytics Dataset | May 2024
+Built with Power BI Desktop | IBM HR Analytics Dataset | August 2026
