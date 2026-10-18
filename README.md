@@ -1,172 +1,341 @@
-HR Analytics Dashboard | Turning Data into Insights and Insights into Impact
-Project Overview
+# HR Analytics Dashboard | Understanding Employee Attrition and Retention
 
-Employee turnover is more than an HR concern. It affects productivity, increases recruitment costs, reduces team stability, and impacts business performance.
+## 1. Business Problem
 
-This project was developed to help HR professionals and business leaders understand their workforce through data. Rather than simply presenting metrics, the goal was to answer meaningful business questions, uncover patterns, and provide recommendations that support better decision-making.
+Employee turnover affects productivity, recruitment costs, team stability, and overall business performance. When employees leave, organizations need to understand where attrition is concentrated and which workforce patterns may be associated with their decisions to leave.
 
-Business Objectives
+This project uses Power BI to analyze employee attrition across departments, job roles, tenure, job satisfaction, work-life balance, compensation, and other workforce characteristics.
 
-This project seeks to answer questions such as:
+The goal is to help HR professionals and business leaders identify employee groups that may require attention and develop evidence-based strategies to improve retention.
 
-What is the overall state of the workforce?
-Which departments and job roles experience the highest attrition?
-What factors appear to influence employee turnover?
-Does employee satisfaction affect retention?
-Are compensation and career progression linked to attrition?
-Which employee groups should HR prioritize for retention efforts?
-What actions can management take to improve employee retention?
+**Key Business Question:** Where is employee attrition highest, which workforce patterns are associated with turnover, and what actions can HR take to improve employee retention?
 
-Dashboard Pages
-Page 1 — HR Executive Overview
+## 2. Data
 
-A high-level snapshot of the entire workforce with key metrics and department-level breakdowns.
+- **Dataset:** IBM HR Analytics Employee Attrition Dataset
+- **Source:** Kaggle
+- **Records:** 1,470 employees
+- **Features:** 35 columns
+- **Target Variable:** Attrition (Yes/No)
+- **File Format:** CSV
 
-KPIs: Total Employees · Active Employees · Employees Left · Attrition Rate · Average Age · Average Years at Company · Average Job Satisfaction · Average Monthly Income
+The dataset contains employee information covering demographics, departments, job roles, monthly income, job satisfaction, performance ratings, work-life balance, training, promotions, and tenure.
 
-Charts:
+These variables provide a basis for examining workforce composition and comparing attrition rates across employee groups.
 
-Workforce by Department
-Workforce by Gender
-Attrition by Department
-Employees by Age Group
-Employees by Education
-Business Travel Distribution
-Workforce Composition by Job Role
-Page 2 — HR Attrition Analysis
+## 3. Method
 
-A deep dive into attrition patterns across multiple dimensions to identify key drivers of employee turnover.
+The project followed a structured data analysis and visualization process.
 
-KPIs: Total Employees · Employees Left · Attrition Rate · Active Employees · Avg Years at Company (Left) · Avg Age (Left)
+### Data Preparation
+Used Power Query to clean and transform the dataset, prepare analytical fields, and create categories suitable for comparison.
 
-Charts:
+### Data Modelling
+Organized the data model to support consistent calculations and interactive analysis in Power BI.
 
-Attrition by Department
-Attrition by Job Role
-Attrition by Overtime
-Attrition by Marital Status
-Attrition by Education Field
-Attrition by Gender
-Attrition by Age Group
-Attrition by Income Band
-Attrition by Years at Company
-Attrition by Distance from Home
-Page 3 — Performance, Compensation & Satisfaction
+### DAX Measures
+Developed measures to calculate workforce size, active employees, employee exits, attrition rates, average income, tenure, and satisfaction metrics.
 
-An analysis of how performance ratings, compensation levels, and satisfaction scores relate to employee retention.
+### Workforce Segmentation
+Created calculated columns to group employees by age, income, commuting distance, tenure, career stage, job level, years since promotion, and other relevant characteristics.
 
-KPIs: Avg Job Satisfaction · Avg Environment Satisfaction · Avg Relationship Satisfaction · Avg Work-Life Balance · Avg Performance Rating · Avg Monthly Income
+### Exploratory Analysis
+Compared attrition rates across departments, job roles, age groups, income bands, tenure, job satisfaction, work-life balance, and other workforce characteristics.
 
-Charts:
+### Dashboard Development
+Built a four-page interactive Power BI dashboard to present workforce metrics, examine attrition patterns, and support HR decision-making.
 
-Average Monthly Income by Job Role
-Performance Rating Distribution
-Satisfaction Scores (out of 5)
-Salary vs Attrition Rate
-Training Times Last Year
-Years Since Last Promotion
-Years with Current Manager
-Work-Life Balance vs Attrition Rate
-Attrition Rate by Job Satisfaction
+## 4. Three Key Findings
 
-Key Takeaway Metrics:
+### Finding 1: Sales Has the Highest Departmental Attrition Rate
 
-High Satisfaction Attrition Rate
-Recent Promotion Attrition Rate
-High Training Attrition Rate
-High Income Attrition Rate
-Page 4 — Workforce Demographics & Strategic Insights
+The overall attrition rate is **16.12%**, while the Sales department records the highest departmental attrition rate at **20.63%**.
 
-A workforce composition and tenure analysis providing strategic insights for HR planning and decision-making.
+**Business implication:** Sales deserves closer examination to understand whether workload, overtime, management practices, compensation, career development, or other working conditions may be contributing to employee turnover.
 
-KPIs: Total Employees · Active Employees · Avg Years at Company · Avg Years in Current Role · Avg Years with Manager · Avg Salary Hike · Stock Option Employees
+### Finding 2: Early-Career Employees Have the Highest Attrition Rate
 
-Charts:
+Employees with **0 to 2 years at the company** have an attrition rate of **29.82%**.
 
-Employees by Education Field
-Employees by Job Level
-Employees by Stock Option Level
-Average % Salary Hike by Job Level
-Years at Company (Tenure)
-Years in Current Role
-Years with Current Manager
-Distance from Home
-Workforce by Age Group
-Department Composition
-Employee Segment Insights (Table)
-🛠️ Tools & Techniques
-Tool	Usage
-Power BI Desktop	Dashboard design and development
-DAX	Calculated measures and columns
-Power Query	Data cleaning and transformation
-Data Modelling	Relationships and schema design
-📐 DAX Measures Created
-DAX
--- Core KPI Measures
-Total Employees = COUNTROWS('IBM_HR_DATASET')
-Active Employees = CALCULATE(COUNTROWS('IBM_HR_DATASET'), 'IBM_HR_DATASET'[Attrition] = "No")
-Employees Left = CALCULATE(COUNTROWS('IBM_HR_DATASET'), 'IBM_HR_DATASET'[Attrition] = "Yes")
-Attrition Rate = DIVIDE([Employees Left], [Total Employees], 0)
+**Business implication:** The early stages of employment may represent an important retention period. HR should investigate onboarding, role expectations, manager support, training, and career progression opportunities for newer employees.
 
--- Attrition Analysis Measures
-Group Attrition Rate = DIVIDE(CALCULATE(COUNTROWS('IBM_HR_DATASET'), 'IBM_HR_DATASET'[Attrition] = "Yes"), COUNTROWS('IBM_HR_DATASET'), 0)
-Avg Age (Left) = CALCULATE(AVERAGE('IBM_HR_DATASET'[Age]), 'IBM_HR_DATASET'[Attrition] = "Yes")
-Avg Years at Company (Left) = CALCULATE(AVERAGE('IBM_HR_DATASET'[YearsAtCompany]), 'IBM_HR_DATASET'[Attrition] = "Yes")
+### Finding 3: Poor Work-Life Balance Is Associated with Higher Attrition
 
--- Satisfaction Measures
-Avg Satisfaction Score = SWITCH(SELECTEDVALUE('Satisfaction Categories'[Category]), ...)
-Avg Environment Satisfaction = AVERAGE('IBM_HR_DATASET'[EnvironmentSatisfaction])
-Avg Work Life Balance = AVERAGE('IBM_HR_DATASET'[WorkLifeBalance])
+Employees reporting the lowest work-life balance score, Level 1, have an attrition rate of **31.25%**.
 
--- Key Takeaway Measures
-High Satisfaction Attrition = CALCULATE(DIVIDE(...), 'IBM_HR_DATASET'[JobSatisfaction] >= 4)
-Recent Promotion Attrition = CALCULATE(DIVIDE(...), 'IBM_HR_DATASET'[YearsSinceLastPromotion] <= 2)
-High Training Attrition = CALCULATE(DIVIDE(...), 'IBM_HR_DATASET'[TrainingTimesLastYear] >= 3)
-High Income Attrition = CALCULATE(DIVIDE(...), 'IBM_HR_DATASET'[MonthlyIncome] >= 10000)
-📊 Calculated Columns Created
-Column	Purpose
-Age Group	Groups employees into 5 age bands
-Age Group Sort	Ensures correct sort order
-Education Label	Converts numeric codes to readable labels
-Income Band	Groups monthly income into ranges
-Distance Band	Groups commute distance into ranges
-Years Promotion Band	Groups years since last promotion
-Career Stage	Classifies Early/Mid/Senior career
-Tenure Band	Groups years at company into ranges
-Current Role Band	Groups years in current role
-Manager Years Band	Groups years with current manager
-WLB Label	Converts Work-Life Balance scores to labels
-JobSat Label	Converts Job Satisfaction scores to labels
-Performance Label	Converts performance ratings to labels
-Job Level Label	Converts job level codes to labels
-Stage Criteria	Describes Career Stage criteria
+**Business implication:** HR should examine workload distribution, overtime, scheduling, and employee feedback to identify possible sources of work-life balance difficulties and determine where targeted improvements may be appropriate.
 
-📁 Dataset
+### Additional Finding: Compensation Warrants Further Investigation
 
-Source: IBM HR Analytics Employee Attrition Dataset Available on: Kaggle
+Employees earning below **$5,000 per month** have the highest attrition rate at **28.12%**. The analysis also shows that employees with low job satisfaction, Level 1, have an attrition rate of **22.84%**, compared with **11.33%** among employees with the highest job satisfaction, Level 4.
 
-Property	Detail
-Rows	1,470 employees
-Columns	35 features
-Target Variable	Attrition (Yes/No)
-Format	CSV
-💡 Key Findings
-Overall attrition rate is 16.12% with Sales department showing the highest at 20.63%
-Early career employees (0-2 years) have the highest attrition at 29.82%
-Employees with poor work-life balance (Level 1) leave at 31.25%
-Low job satisfaction (Level 1) drives attrition to 22.84% vs 11.33% for very satisfied employees
-Employees earning below 5K USD monthly have the highest attrition at 28.12%
-42.18% of the workforce is aged 25-34 — the largest and most at-risk group
-631 employees (42.93%) have no stock options — a potential retention lever
+These additional patterns provide useful context for HR teams investigating compensation and employee experience alongside the three principal findings.
 
-👩‍💻 Author
-Ifeoma Precious Ugwu Data Analyst | Power BI Developer
+**Interpretation note:** These figures describe associations observed in the dataset. They do not establish that any single characteristic independently causes employee turnover.
 
-📌 How to Use
-Download the .pbix file from this repository
-Open with Power BI Desktop (free download from Microsoft)
-All data is embedded — no additional setup required
-Use the slicers on the left sidebar to filter by Department, Job Role, Gender, Education, Age Group and more
-Click any visual to cross-filter the entire page
+## 5. Recommendations
 
-Built with Power BI Desktop | IBM HR Analytics Dataset | August 2026
+### 1. Investigate Attrition in Sales
+
+Review exit records, employee feedback, workload, overtime, compensation, and management practices within the Sales department. Compare these patterns with departments that have lower attrition to identify potential areas for improvement.
+
+### 2. Strengthen Early-Career Retention
+
+Introduce structured onboarding, regular manager check-ins, mentoring, clear performance expectations, and early career development discussions. Monitor attrition by tenure to assess whether these measures are associated with improved retention.
+
+### 3. Address Work-Life Balance Concerns
+
+Examine workloads, overtime patterns, scheduling practices, and employee feedback. Where problems are identified, test targeted changes and compare subsequent attrition rates with previous results.
+
+### 4. Review Compensation and Job Satisfaction
+
+Investigate whether compensation levels, career progression, job responsibilities, and employee satisfaction differ between employees who stay and those who leave. Use the findings to guide targeted retention measures rather than assuming salary alone explains turnover.
+
+### 5. Monitor Workforce Trends Regularly
+
+Use the dashboard to track attrition by department, job role, tenure, satisfaction, income, and other relevant characteristics. Review these indicators regularly to identify emerging patterns and assess the results of retention initiatives.
+
+## 6. Dashboard Overview
+
+The dashboard consists of four interactive pages.
+
+### Page 1: HR Executive Overview
+
+Provides a high-level view of workforce composition and headline HR metrics.
+
+**Key Performance Indicators**
+- Total Employees
+- Active Employees
+- Employees Left
+- Attrition Rate
+- Average Age
+- Average Years at Company
+- Average Job Satisfaction
+- Average Monthly Income
+
+**Visualizations**
+- Workforce by Department
+- Workforce by Gender
+- Attrition by Department
+- Employees by Age Group
+- Employees by Education
+- Business Travel Distribution
+- Workforce Composition by Job Role
+
+### Page 2: HR Attrition Analysis
+
+Examines how employee turnover varies across workforce groups.
+
+**Key Performance Indicators**
+- Total Employees
+- Employees Left
+- Attrition Rate
+- Active Employees
+- Average Years at Company for Employees Who Left
+- Average Age of Employees Who Left
+
+**Visualizations**
+- Attrition by Department
+- Attrition by Job Role
+- Attrition by Overtime
+- Attrition by Marital Status
+- Attrition by Education Field
+- Attrition by Gender
+- Attrition by Age Group
+- Attrition by Income Band
+- Attrition by Years at Company
+- Attrition by Distance from Home
+
+### Page 3: Performance, Compensation and Satisfaction
+
+Examines relationships between employee retention, compensation, performance, and workplace experience.
+
+**Key Performance Indicators**
+- Average Job Satisfaction
+- Average Environment Satisfaction
+- Average Relationship Satisfaction
+- Average Work-Life Balance
+- Average Performance Rating
+- Average Monthly Income
+
+**Visualizations**
+- Average Monthly Income by Job Role
+- Performance Rating Distribution
+- Satisfaction Scores on a Five-Point Scale
+- Salary vs. Attrition Rate
+- Training Times Last Year
+- Years Since Last Promotion
+- Years with Current Manager
+- Work-Life Balance vs. Attrition Rate
+- Attrition Rate by Job Satisfaction
+
+**Additional Analytical Measures**
+- High Satisfaction Attrition Rate
+- Recent Promotion Attrition Rate
+- High Training Attrition Rate
+- High Income Attrition Rate
+
+These measures allow users to investigate attrition patterns within selected employee groups.
+
+### Page 4: Workforce Demographics and Strategic Insights
+
+Provides a deeper view of workforce composition, career progression, and tenure to support HR planning.
+
+**Key Performance Indicators**
+- Total Employees
+- Active Employees
+- Average Years at Company
+- Average Years in Current Role
+- Average Years with Manager
+- Average Salary Hike
+- Employees with Stock Options
+
+**Visualizations**
+- Employees by Education Field
+- Employees by Job Level
+- Employees by Stock Option Level
+- Average Percentage Salary Hike by Job Level
+- Years at Company
+- Years in Current Role
+- Years with Current Manager
+- Distance from Home
+- Workforce by Age Group
+- Department Composition
+- Employee Segment Insights Table
+
+## 7. Tools and Techniques
+
+| Tool or Technique | Application |
+|---|---|
+| Power BI Desktop | Dashboard design and development |
+| Power Query | Data cleaning and transformation |
+| DAX | Measures, calculated columns, and analytical indicators |
+| Data Modelling | Data structure and relationship management |
+| Exploratory Data Analysis | Workforce segmentation and attrition comparisons |
+
+## 8. DAX Measures
+
+The following are examples of the core measures used in the dashboard.
+
+### Core Workforce Metrics
+
+```dax
+Total Employees =
+COUNTROWS('IBM_HR_DATASET')
+
+Active Employees =
+CALCULATE(
+    COUNTROWS('IBM_HR_DATASET'),
+    'IBM_HR_DATASET'[Attrition] = "No"
+)
+
+Employees Left =
+CALCULATE(
+    COUNTROWS('IBM_HR_DATASET'),
+    'IBM_HR_DATASET'[Attrition] = "Yes"
+)
+
+Attrition Rate =
+DIVIDE(
+    [Employees Left],
+    [Total Employees],
+    0
+)
+```
+
+### Attrition Analysis Measures
+
+```dax
+Group Attrition Rate =
+DIVIDE(
+    CALCULATE(
+        COUNTROWS('IBM_HR_DATASET'),
+        'IBM_HR_DATASET'[Attrition] = "Yes"
+    ),
+    COUNTROWS('IBM_HR_DATASET'),
+    0
+)
+
+Avg Age (Left) =
+CALCULATE(
+    AVERAGE('IBM_HR_DATASET'[Age]),
+    'IBM_HR_DATASET'[Attrition] = "Yes"
+)
+
+Avg Years at Company (Left) =
+CALCULATE(
+    AVERAGE('IBM_HR_DATASET'[YearsAtCompany]),
+    'IBM_HR_DATASET'[Attrition] = "Yes"
+)
+```
+
+### Satisfaction Measures
+
+```dax
+Avg Environment Satisfaction =
+AVERAGE(
+    'IBM_HR_DATASET'[EnvironmentSatisfaction]
+)
+
+Avg Work Life Balance =
+AVERAGE(
+    'IBM_HR_DATASET'[WorkLifeBalance]
+)
+```
+
+Additional measures were created for satisfaction categories and attrition among employees meeting selected criteria, including job satisfaction levels, recent promotions, training frequency, and monthly income thresholds.
+
+## 9. Calculated Columns
+
+The dashboard uses calculated columns to support consistent grouping, sorting, and interpretation.
+
+| Calculated Column | Purpose |
+|---|---|
+| Age Group | Groups employees into five age bands |
+| Age Group Sort | Maintains the correct age-band order |
+| Education Label | Converts education codes into readable labels |
+| Income Band | Groups monthly income into ranges |
+| Distance Band | Groups commuting distances into ranges |
+| Years Promotion Band | Groups years since last promotion |
+| Career Stage | Classifies employees into career stages |
+| Tenure Band | Groups years at the company |
+| Current Role Band | Groups years in the current role |
+| Manager Years Band | Groups years with the current manager |
+| WLB Label | Converts work-life balance scores into labels |
+| JobSat Label | Converts job satisfaction scores into labels |
+| Performance Label | Converts performance ratings into labels |
+| Job Level Label | Converts job level codes into readable labels |
+| Stage Criteria | Describes the criteria used for career-stage classification |
+
+## 10. Business Value
+
+This project demonstrates how employee data can be transformed into an interactive analytical tool that supports workforce planning and retention decisions.
+
+The dashboard helps HR professionals and business leaders:
+
+- Monitor workforce composition and employee turnover.
+- Identify departments and employee groups with elevated attrition.
+- Examine patterns associated with satisfaction, compensation, tenure, and working conditions.
+- Prioritize areas for further investigation.
+- Track workforce indicators to support more informed retention decisions.
+
+The central value of the project is the connection between workforce metrics, analytical findings, and practical recommendations.
+
+## 11. How to Use the Dashboard
+
+1. Download the `.pbix` file from this GitHub repository.
+2. Open it using Power BI Desktop.
+3. Use the slicers on the left sidebar to filter by department, job role, gender, education, age group, and other available categories.
+4. Select charts or data points to cross-filter the visuals on the relevant page.
+5. Compare employee groups and examine the measures to explore the patterns behind the overall workforce figures.
+
+The dashboard file contains the data required for the report, so no separate dataset setup should be necessary.
+
+## Author
+
+**Ifeoma Precious Ugwu**  
+Data Analyst | Power BI Developer
+
+**Tools:** Power BI Desktop, DAX, Power Query  
+**Dataset:** IBM HR Analytics Employee Attrition Dataset  
+**Project Date:** August 2026
